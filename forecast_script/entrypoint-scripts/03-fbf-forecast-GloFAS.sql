@@ -13,9 +13,9 @@ $$;
 -- Include in cron
 insert into cron.job (schedule, command)
 select
-    '0 1 * * *', $$ select kartoza_fba_forecast_glofas() $$
+    '0 * * * *', $$ select kartoza_fba_forecast_glofas() $$
 where
       not exists (
           select schedule, command from cron.job
-          where schedule = '0 1 * * *' and command = $$ select kartoza_fba_forecast_glofas() $$)
+          where schedule = '0 * * * *' and command = $$ select kartoza_fba_forecast_glofas() $$)
 

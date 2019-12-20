@@ -1,6 +1,7 @@
 import json
 from collections import OrderedDict
 from datetime import datetime, timedelta
+from dateutil import parser
 
 from osgeo import ogr
 from glofas.layer.reporting_point import ReportingPointAPI, ReportingPointResult
@@ -687,12 +688,12 @@ class GloFASForecast(object):
         return updated
 
     def evaluate_trigger_status(self):
-        today = self.api.time or datetime.today().replace(
-            hour=0, minute=0, second=0, microsecond=0)
 
         # Evaluate trigger status by considering impact level
         # At this point, impact data should already been calculated in the DB
         for flood_forecast in self.flood_forecast_events:
+
+            today = parser.parse(flood_forecast['acquisition_date'])
 
             # Evaluate pre activation criteria
             # Find impact data:
